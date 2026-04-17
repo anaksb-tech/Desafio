@@ -399,7 +399,6 @@
 </div>
 
 <script>
-  // ⚠️ Troque pela URL do seu serviço no Render após o deploy
   const API_URL = 'https://desafio-fmev.onrender.com';
 
   let tipoCliente = 'comum';
