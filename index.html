@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cashback Nology</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --card: #1a1a26;
+      --border: #2a2a3d;
+      --accent: #7c6fcd;
+      --accent2: #a78bfa;
+      --green: #34d399;
+      --text: #f0eeff;
+      --muted: #7b7a9a;
+      --danger: #f87171;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* Background grain */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      max-width: 520px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .logo-tag {
+      display: inline-block;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 99px;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      margin-top: 0.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Card */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.2s; }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Form */
+    .field { margin-bottom: 1.25rem; }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.02em;
+    }
+
+    input, select {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    input::placeholder { color: var(--muted); }
+
+    .prefix-wrap {
+      position: relative;
+    }
+
+    .prefix-wrap span {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    .prefix-wrap input { padding-left: 2.2rem; }
+
+    /* Toggle cliente */
+    .toggle-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .toggle-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .toggle-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Button */
+    .btn {
+      width: 100%;
+      background: var(--accent);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.9rem;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      margin-top: 0.5rem;
+      letter-spacing: 0.03em;
+    }
+
+    .btn:hover { opacity: 0.88; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Resultado */
+    #resultado { display: none; }
+
+    .result-value {
+      text-align: center;
+      padding: 1rem 0 0.5rem;
+    }
+
+    .result-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .result-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--green);
+      line-height: 1.1;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .result-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+    }
+
+    .result-item .lbl {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .result-item .val {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+    }
+
+    .badge.dobrou { background: #7c6fcd33; color: var(--accent2); }
+    .badge.vip    { background: #34d39922; color: var(--green); }
+
+    /* Histórico */
+    #historico-lista { margin-top: 0.5rem; }
+
+    .hist-empty {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 1rem 0;
+    }
+
+    .hist-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.3s ease both;
+    }
+
+    .hist-item:last-child { border-bottom: none; }
+
+    .hist-info { font-size: 0.88rem; color: var(--muted); }
+    .hist-info strong { color: var(--text); font-weight: 500; }
+
+    .hist-cb {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      color: var(--green);
+      font-size: 1rem;
+    }
+
+    /* Error */
+    .error-msg {
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    /* Loader */
+    .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid #ffffff44;
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 0.4rem;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <header>
+    <div class="logo-tag">Nology Fintech</div>
+    <h1>Cashback<br/>Calculator</h1>
+    <p class="subtitle">Simule seu cashback em segundos</p>
+  </header>
+
+  <!-- Formulário -->
+  <div class="card">
+    <p class="card-title">Nova consulta</p>
+
+    <div class="field">
+      <label>Tipo de cliente</label>
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="btn-comum" onclick="setCliente('comum')">Comum</button>
+        <button class="toggle-btn" id="btn-vip" onclick="setCliente('vip')">VIP</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Valor da compra</label>
+      <div class="prefix-wrap">
+        <span>R$</span>
+        <input type="number" id="valor" placeholder="0,00" min="0" step="0.01"/>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Desconto (cupom %)</label>
+      <div class="prefix-wrap">
+        <span>%</span>
+        <input type="number" id="desconto" placeholder="0" min="0" max="100" step="1" value="0"/>
+      </div>
+    </div>
+
+    <p class="error-msg" id="erro">Preencha o valor da compra corretamente.</p>
+    <button class="btn" id="btn-calcular" onclick="calcular()">Calcular cashback</button>
+  </div>
+
+  <!-- Resultado -->
+  <div class="card" id="resultado">
+    <p class="card-title">Resultado</p>
+    <div class="result-value">
+      <p class="result-label">Cashback gerado</p>
+      <p class="result-number" id="res-cashback">R$ 0,00</p>
+    </div>
+    <div class="result-grid">
+      <div class="result-item">
+        <p class="lbl">Valor final</p>
+        <p class="val" id="res-final">—</p>
+      </div>
+      <div class="result-item">
+        <p class="lbl">Cashback base</p>
+        <p class="val" id="res-base">—</p>
+      </div>
+      <div class="result-item">
+        <p class="lbl">Bônus VIP</p>
+        <p class="val" id="res-vip">—</p>
+      </div>
+      <div class="result-item">
+        <p class="lbl">Promoção dobro</p>
+        <p class="val" id="res-dobrou">—</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Histórico -->
+  <div class="card">
+    <p class="card-title">Histórico do seu IP</p>
+    <div id="historico-lista">
+      <p class="hist-empty">Nenhuma consulta ainda.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ⚠️ Troque pela URL do seu serviço no Render após o deploy
+  const API_URL = 'https://SEU-APP.onrender.com';
+
+  let tipoCliente = 'comum';
+
+  function setCliente(tipo) {
+    tipoCliente = tipo;
+    document.getElementById('btn-comum').classList.toggle('active', tipo === 'comum');
+    document.getElementById('btn-vip').classList.toggle('active', tipo === 'vip');
+  }
+
+  function fmt(v) {
+    return 'R$ ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  async function calcular() {
+    const valor = parseFloat(document.getElementById('valor').value);
+    const desconto = parseFloat(document.getElementById('desconto').value) || 0;
+    const erro = document.getElementById('erro');
+    const btn = document.getElementById('btn-calcular');
+
+    if (!valor || valor <= 0) {
+      erro.style.display = 'block';
+      return;
+    }
+    erro.style.display = 'none';
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Calculando...';
+
+    try {
+      const res = await fetch(`${API_URL}/api/calcular`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tipo_cliente: tipoCliente,
+          valor_compra: valor,
+          desconto_percentual: desconto
+        })
+      });
+
+      const data = await res.json();
+      const c = data.calculo;
+
+      document.getElementById('res-cashback').textContent = fmt(c.cashback_final);
+      document.getElementById('res-final').textContent = fmt(c.valor_final);
+      document.getElementById('res-base').textContent = fmt(c.cashback_base_bruto);
+      document.getElementById('res-vip').textContent = c.cliente_vip
+        ? `<span class="badge vip">+${fmt(c.bonus_vip)}</span>`
+        : '—';
+      document.getElementById('res-vip').innerHTML = c.cliente_vip
+        ? `<span class="badge vip">+ ${fmt(c.bonus_vip)}</span>`
+        : '—';
+      document.getElementById('res-dobrou').innerHTML = c.dobrou
+        ? '<span class="badge dobrou">Dobrou ✓</span>'
+        : '—';
+
+      document.getElementById('resultado').style.display = 'block';
+
+      carregarHistorico();
+    } catch (e) {
+      erro.textContent = 'Erro ao conectar com a API. Verifique se o servidor está online.';
+      erro.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'Calcular cashback';
+    }
+  }
+
+  async function carregarHistorico() {
+    try {
+      const res = await fetch(`${API_URL}/api/historico`);
+      const data = await res.json();
+      const lista = document.getElementById('historico-lista');
+
+      if (!data.length) {
+        lista.innerHTML = '<p class="hist-empty">Nenhuma consulta ainda.</p>';
+        return;
+      }
+
+      lista.innerHTML = data.map(item => `
+        <div class="hist-item">
+          <div class="hist-info">
+            <strong>${item.tipo_cliente}</strong> &mdash;
+            ${fmt(item.valor_compra)}
+            <br/><span style="font-size:0.75rem">${new Date(item.data_consulta).toLocaleString('pt-BR')}</span>
+          </div>
+          <div class="hist-cb">${fmt(item.cashback)}</div>
+        </div>
+      `).join('');
+    } catch (e) {
+      console.error('Erro ao carregar histórico', e);
+    }
+  }
+
+  carregarHistorico();
+</script>
+</body>
+</html>
